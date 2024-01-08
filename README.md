@@ -2,7 +2,7 @@
 
 This project implements the TCP Ledbat++ congestion control algorithm over the ns-3 simulator (using version 3.37).
 
-Ledbat++ model has been implemented according to the https://datatracker.ietf.org/doc/html/draft-irtf-iccrg-ledbat-plus-plus-01 and is built upon the tcp-ledbat implementation as provided by the ns-3 codebase.
+The Ledbat++ model has been implemented according to the https://datatracker.ietf.org/doc/html/draft-irtf-iccrg-ledbat-plus-plus-01 and is built upon the tcp-ledbat implementation as provided by the ns-3 codebase.
 
 To use the model 
 
