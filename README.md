@@ -1,4 +1,4 @@
-# ns3-tcp-ledbatpp
+# Ledbat++ implementation for ns-3
 
 This project implements the TCP Ledbat++ congestion control algorithm over the ns-3 simulator (using version 3.37).
 
@@ -54,7 +54,7 @@ To use the model
 
    
 4) (Re-)build ns-3.
-5) You may use the tcp-variants-examples to experiment with tcp-ledbatpp by setting 'TcpLedbatpp' as the transport protocol:
+5) You may use the tcp-variants-comparison example (found under the _/examples/tcp_ directory) to experiment with Ledbat++ by setting 'TcpLedbatpp' as the transport protocol:
    ```
    std::string transport_prot = "TcpLedbatpp";
    ```
