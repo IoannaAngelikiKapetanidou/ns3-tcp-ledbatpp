@@ -1,4 +1,4 @@
-# Ledbat++ implementation for ns-3
+# Ledbat++ implementation in ns-3
 
 This project implements the TCP Ledbat++ congestion control algorithm over the ns-3 simulator (using version 3.37).
 
