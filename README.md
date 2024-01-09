@@ -58,3 +58,8 @@ To use the model
    ```
    std::string transport_prot = "TcpLedbatpp";
    ```
+
+   You may get logging info by enabling NS_LOG before running the example, e.g.:
+   ```
+   export 'NS_LOG=TcpLedbatpp=level_info|prefix_time|prefix_func'
+   ```
