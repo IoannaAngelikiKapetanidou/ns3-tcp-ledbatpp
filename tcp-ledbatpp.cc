@@ -80,13 +80,12 @@ TcpLedbatpp::TcpLedbatpp (void)
   m_flag = LEDBAT_CAN_SS;
   m_minCwnd = 2;
   constant = 1; //constant used in the m_gain formula, set to 1 as recommended by draft-irtf-iccrg-ledbat-plus-plus-01
-  slowdown_end  = 0; //starting time of initial slowdown
-  slowdown_init = 0; //ending time of initial slowdown
+  slowdown_end  = 0; //ending time of slowdown
+  slowdown_init = 0; //starting time of slowdown
   slowdown_period = 0; //slowdown period
-  slowdown_init_flag = false; //flag to check whether initial slowdown has started
-  slowdown_end_flag = false; //flag to check whether initial slowdown has ended
+  slowdown_init_flag = false; //flag to check whether computing the next slowdown period has started
+  slowdown_end_flag = false; //flag to check whether the next slowdown period slowdown has been
   init_slowstart = false; //flag to ensure that exit slow start on excessive delay is applied only during the initial slow start
-  init_slowdown = false; //flag to check whether initial slowdown is completed
   cwnd_freeze = -1; //used to keep cwnd frozen for 2 RTTs during periodic slowdowns
   frozen_cwnd = false; //flag to check whether we are in keeping cwnd frozen period
  
@@ -204,16 +203,15 @@ void TcpLedbatpp::IncreaseWindow (Ptr<TcpSocketState> tcb, uint32_t segmentsAcke
 
 
   //Scheduling of periodic Slowdowns
-  if (tcb->m_cWnd>=tcb->m_ssThresh && slowdown_end_flag==false && !init_slowdown && Simulator::Now ().GetSeconds ()>slowdown_init){
+    if (tcb->m_cWnd>=tcb->m_ssThresh && slowdown_end_flag==false && Simulator::Now ().GetSeconds ()>slowdown_init){
       slowdown_end = Simulator::Now ().GetSeconds ();
       slowdown_period=slowdown_end -slowdown_init;
       slowdown_end_flag=true;
-      NS_LOG_INFO ("Scheduling slowdown after 9*" << slowdown_period << " seconds.");
+      NS_LOG_INFO ("Scheduling slowdown after 9*" << slowdown_period << " = " << 9*slowdown_period << " seconds.");
       Simulator::Schedule (Seconds (9*slowdown_period),&TcpLedbatpp::Slowdown,this,tcb,segmentsAcked);                    
                       
   } 
 
- 
   
   if (m_doSs == DO_SLOWSTART && tcb->m_cWnd <= tcb->m_ssThresh && (m_flag & LEDBAT_CAN_SS) && init_slowstart==1)
     {      
@@ -307,26 +305,21 @@ void TcpLedbatpp::CongestionAvoidance (Ptr<TcpSocketState> tcb, uint32_t segment
 void TcpLedbatpp::Slowdown (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked){
 
  const Time& rtt = tcb->m_lastRtt;
-
- if (init_slowstart){
-     
-  if (slowdown_end_flag){
-           init_slowdown=1;	//initial slowdown completed
-       }
-  }
    
- 
+  tcb->m_ssThresh = tcb->m_cWnd;	
   tcb->m_cWnd=2;	 
   cwnd_freeze = Simulator::Now().GetSeconds() + 2*rtt.GetSeconds();
   NS_LOG_INFO ("Keep Cwnd frozen to 2 packets for 2 RTTs=" << 2*rtt.GetSeconds() << " seconds.");
   NS_LOG_INFO ("Exit freeze period at " << cwnd_freeze << " seconds.");
   frozen_cwnd = true;
   //Simulator::Schedule (Seconds (2*rtt.GetSeconds()),&TcpLedbatpp::Slowstart,this,tcb,segmentsAcked); 
- if (slowdown_end_flag) {
+ /*if (slowdown_end_flag) {
 	NS_LOG_INFO ("Next slowdown after " << 9*slowdown_period << " seconds.");
 	Simulator::Schedule (Seconds (9*slowdown_period),&TcpLedbatpp::Slowdown,this,tcb,segmentsAcked); 
-  }  
-
+  }  */
+  
+  slowdown_end_flag = false;
+  slowdown_init = Simulator::Now().GetSeconds();
 
 }
 
