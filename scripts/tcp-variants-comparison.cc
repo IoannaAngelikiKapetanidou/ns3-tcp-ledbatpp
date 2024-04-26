@@ -378,7 +378,7 @@ PrintThroughput(Time measurementWindow)
     for (std::size_t i = 0; i < num_active_flows; i++)
     {
         rxS1R1Throughput << Simulator::Now ().GetSeconds () << "s " << i << " "
-                         << (rxS1R1Bytes[i] * 8) / (measurementWindow.GetSeconds()) / 1e6
+                         << (rxS1R1Bytes[i] * 8) / (Simulator::Now ().GetSeconds()) / 1e6
                          << std::endl;
                          
     }
@@ -402,7 +402,7 @@ PrintFairness(Time measurementWindow)
         sum += rxS1R1Bytes[i];
         sumSquares += (rxS1R1Bytes[i] * rxS1R1Bytes[i]);
     }
-    average = ((sum / num_active_flows) * 8 / measurementWindow.GetSeconds()) / 1e6;
+    average = ((sum / num_active_flows) * 8 / Simulator::Now ().GetSeconds()) / 1e6;
     fairness = static_cast<double>(sum * sum) / (num_active_flows * sumSquares);
         fairnessIndex << Simulator::Now ().GetSeconds () << " Average throughput for S1-R1 flows: " << std::fixed << std::setprecision(2)
                   << average << " Mbps; fairness: " << std::fixed << std::setprecision(3)

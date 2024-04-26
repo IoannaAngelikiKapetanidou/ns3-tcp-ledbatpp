@@ -393,7 +393,7 @@ PrintThroughput(Time measurementWindow)
     for (std::size_t i = 0; i < num_flows; i++)
     {
         rxS1R1Throughput << Simulator::Now ().GetSeconds () << "s " << i << " "
-                         << (rxS1R1Bytes[i] * 8) / (measurementWindow.GetSeconds()) / 1e6
+                         << (rxS1R1Bytes[i] * 8) / (Simulator::Now ().GetSeconds()) / 1e6
                          << std::endl;
                          
     }
@@ -401,7 +401,7 @@ PrintThroughput(Time measurementWindow)
      for (std::size_t i = 0; i < num_active_flows; i++)
     {
         rxS2R2Throughput << Simulator::Now().GetSeconds() << "s " << i << " "
-                         << (rxS2R2Bytes[i] * 8) / (measurementWindow.GetSeconds()) / 1e6
+                         << (rxS2R2Bytes[i] * 8) / (Simulator::Now ().GetSeconds()) / 1e6
                          << std::endl;
     }
     
@@ -425,7 +425,7 @@ PrintFairness(Time measurementWindow)
         sumSquares += (rxS1R1Bytes[i] * rxS1R1Bytes[i]);
     }
 
-    average = ((sum / num_flows) * 8 / measurementWindow.GetSeconds()) / 1e6;
+    average = ((sum / num_flows) * 8 / Simulator::Now ().GetSeconds()) / 1e6;
     fairness = static_cast<double>(sum * sum) / (num_flows * sumSquares);
         fairnessIndex << Simulator::Now ().GetSeconds () << " Average throughput for S1-R1 flows: " << std::fixed << std::setprecision(2)
                   << average << " Mbps; fairness: " << std::fixed << std::setprecision(3)
@@ -441,7 +441,7 @@ PrintFairness(Time measurementWindow)
         sumSquares += (rxS2R2Bytes[i] * rxS2R2Bytes[i]);
     }
 
-    average = ((sum /  num_active_flows) * 8 / measurementWindow.GetSeconds()) / 1e6;
+    average = ((sum /  num_active_flows) * 8 / Simulator::Now ().GetSeconds()) / 1e6;
     fairness = static_cast<double>(sum * sum) / ( num_active_flows * sumSquares);
     fairnessIndex << Simulator::Now ().GetSeconds () << " Average throughput for S2-R2 flows: " << std::fixed << std::setprecision(2)
                   << average << " Mbps; fairness: " << std::fixed << std::setprecision(3)
@@ -474,7 +474,7 @@ PrintFairness(Time measurementWindow)
                   
    Simulator::Schedule(Seconds(Simulator::Now ().GetSeconds () + measurementWindow.GetSeconds()),
                         &PrintFairness,
-                        measurementWindow);
+                        measurementWindow); 
     
 }
 
@@ -994,10 +994,10 @@ main(int argc, char* argv[])
 		     //                   num_flows + index + gateways.GetN());
       
       		    Simulator::Schedule(Seconds(start_time + index*interval),&CountActiveFlows);      
-		    Simulator::Schedule(Seconds(start_time + index*interval + measurementWindow.GetSeconds()),
+		    Simulator::Schedule(Seconds(start_time + + index*interval + measurementWindow.GetSeconds()),
 		                &PrintThroughput,
 		                measurementWindow);
-	    	    Simulator::Schedule(Seconds(start_time + index*interval + measurementWindow.GetSeconds()),
+	    	    Simulator::Schedule(Seconds(start_time + + index*interval + measurementWindow.GetSeconds()),
 		                &PrintFairness,
 		                measurementWindow);
 		      
@@ -1030,7 +1030,7 @@ main(int argc, char* argv[])
     }
      
 
-    Simulator::Stop(Seconds(stop_time));
+    Simulator::Stop(Seconds(stop_time) + TimeStep(1));
     Simulator::Run();
    
     

@@ -380,7 +380,7 @@ PrintThroughput(Time measurementWindow)
     for (std::size_t i = 0; i < 1; i++)
     {
         rxS1R1Throughput << Simulator::Now ().GetSeconds () << "s " << i << " "
-                         << (rxS1R1Bytes[i] * 8) / (measurementWindow.GetSeconds()) / 1e6
+                         << (rxS1R1Bytes[i] * 8) / (Simulator::Now ().GetSeconds()) / 1e6
                          << std::endl;
                          
     }
