@@ -7,4 +7,4 @@ The scripts have been used in the experiments described in the paper, as follows
 - _cross-traffic-multi-bottleneck.cc_: Used in Experiment 2, Scenario 2. Extends _tcp-variants-comparison-with-reverse-flows.cc_.
 
 
-Currently, the scripts provide measurements of the total throughput up to the simulation time point. To calculate average throughput over a measurement window, equations in _PrintThroughput_ and _PrintFairness _functions need to be adjusted, and _rxS1R1Bytes_ and _rxS2R2Bytes_ buffers have to be initialized periodically.
+Currently, the scripts provide measurements of the total throughput up to the simulation time point. To calculate average throughput over a measurement window, equations in _PrintThroughput_ and _PrintFairness_ functions need to be adjusted, and _rxS1R1Bytes_ and _rxS2R2Bytes_ buffers have to be initialized periodically.
