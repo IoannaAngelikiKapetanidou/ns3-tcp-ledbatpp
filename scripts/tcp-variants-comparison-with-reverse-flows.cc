@@ -448,9 +448,9 @@ PrintFairness(Time measurementWindow)
                   << fairness << std::endl;
                   
     uint64_t sumSquares1 = 0;
-    uint64_t sumSquares2 = 0;
-    uint64_t sum1 = 0;
-    uint64_t sum2 = 0;
+    uint64_t sumSquares2
+    double sum1 = 0;
+    double sum2 = 0;
     fairness = 0;
     for (std::size_t i = 0; i < num_flows; i++)
     {

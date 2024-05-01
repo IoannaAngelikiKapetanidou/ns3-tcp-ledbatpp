@@ -52,6 +52,7 @@
 #include <string>
 #include <iomanip>
 
+
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE("TcpVariantsComparison");
@@ -395,7 +396,7 @@ PrintFairness(Time measurementWindow)
 {
     double average = 0;
     uint64_t sumSquares = 0;
-    uint64_t sum = 0;
+    double sum = 0;
     double fairness = 0;
     for (std::size_t i = 0; i < num_active_flows; i++)
     {
@@ -403,7 +404,10 @@ PrintFairness(Time measurementWindow)
         sumSquares += (rxS1R1Bytes[i] * rxS1R1Bytes[i]);
     }
     average = ((sum / num_active_flows) * 8 / Simulator::Now ().GetSeconds()) / 1e6;
-    fairness = static_cast<double>(sum * sum) / (num_active_flows * sumSquares);
+    fairness = static_cast<long double>(sum * sum) / (num_active_flows);
+    fairness = fairness/sumSquares;
+    long double sq = static_cast<long double>(sum * sum);
+   
         fairnessIndex << Simulator::Now ().GetSeconds () << " Average throughput for S1-R1 flows: " << std::fixed << std::setprecision(2)
                   << average << " Mbps; fairness: " << std::fixed << std::setprecision(3)
                   << fairness << std::endl;
