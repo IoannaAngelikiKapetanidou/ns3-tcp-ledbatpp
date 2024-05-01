@@ -400,8 +400,8 @@ PrintFairness(Time measurementWindow)
     double fairness = 0;
     for (std::size_t i = 0; i < num_active_flows; i++)
     {
-        sum += rxS1R1Bytes[i];
-        sumSquares += (rxS1R1Bytes[i] * rxS1R1Bytes[i]);
+        sum += rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10));
+        sumSquares += ((rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))) * (rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))));
     }
     average = ((sum / num_active_flows) * 8 / Simulator::Now ().GetSeconds()) / 1e6;
     fairness = static_cast<long double>(sum * sum) / (num_active_flows);

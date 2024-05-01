@@ -454,13 +454,13 @@ PrintFairness(Time measurementWindow)
     fairness = 0;
     for (std::size_t i = 0; i < num_flows; i++)
     {
-        sum1 += rxS1R1Bytes[i];
-        sumSquares1 += (rxS1R1Bytes[i] * rxS1R1Bytes[i]);
+        sum1 += rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10));
+        sumSquares1 += ((rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))) * (rxS1R1Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))));
     }
     for (std::size_t i = 0; i <  num_active_flows; i++)
     {
-        sum2 += rxS2R2Bytes[i];
-        sumSquares2 += (rxS2R2Bytes[i] * rxS2R2Bytes[i]);
+        sum2 += rxS2R2Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10));
+        sumSquares2 += ((rxS2R2Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))) * (rxS2R2Bytes[i]/(Simulator::Now ().GetSeconds () - (0.1 + i*10))));
     }
 
    fairness = static_cast<double>((sum1 + sum2) * (sum1 + sum2))/ ((num_active_flows + num_flows) * (sumSquares1 +  sumSquares2));
