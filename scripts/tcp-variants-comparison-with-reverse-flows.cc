@@ -405,7 +405,7 @@ PrintThroughput(Time measurementWindow)
                          << std::endl;
     }
     
-    Simulator::Schedule(Seconds(Simulator::Now ().GetSeconds () + measurementWindow.GetSeconds()),
+    Simulator::Schedule(Seconds(measurementWindow.GetSeconds()),
                         &PrintThroughput,
                         measurementWindow);
     
@@ -448,7 +448,7 @@ PrintFairness(Time measurementWindow)
                   << fairness << std::endl;
                   
     uint64_t sumSquares1 = 0;
-    uint64_t sumSquares2
+    uint64_t sumSquares2 = 0;
     double sum1 = 0;
     double sum2 = 0;
     fairness = 0;
@@ -844,11 +844,12 @@ main(int argc, char* argv[])
         Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(tcp_adu_size));
        // BulkSendHelper ftp("ns3::TcpSocketFactory", Address());
         OnOffHelper ftp("ns3::TcpSocketFactory", Address());
-        ftp.SetAttribute("OnTime", StringValue ("ns3::ConstantRandomVariable[Constant=75]"));
+       ftp.SetAttribute("OnTime", StringValue ("ns3::ConstantRandomVariable[Constant=75]"));
         ftp.SetAttribute("OffTime", StringValue ("ns3::ConstantRandomVariable[Constant=75]"));
         ftp.SetAttribute("Remote", remoteAddress);
-       // ftp.SetAttribute("SendSize", UintegerValue(tcp_adu_size));
-       ftp.SetAttribute("PacketSize", UintegerValue(tcp_adu_size));
+        //ftp.SetAttribute("SendSize", UintegerValue(tcp_adu_size));
+        ftp.SetAttribute("PacketSize", UintegerValue(tcp_adu_size));
+        //ftp.SetAttribute("DataRate", DataRateValue((DataRate ("100Mb/s"))));
         ftp.SetAttribute("MaxBytes", UintegerValue(data_mbytes));
 
 	
@@ -905,7 +906,7 @@ main(int argc, char* argv[])
          for (uint16_t index = 0; index < num_flows + num_reverse_flows; index++)
         {
             
-            if (index < num_flows) {
+          /*  if (index < num_flows) {
 		    std::string flowString;
                    flowString = "-flow" + std::to_string(index);
 	
@@ -938,7 +939,7 @@ main(int argc, char* argv[])
 		    Simulator::Schedule(Seconds(start_time * index + 0.0001),
 		                        &TraceInFlight,
 		                        prefix_file_name + flowString + "-inflight.data",
-		                        index + gateways.GetN());
+		                        index + gateways.GetN()); */
 	       //     Simulator::Schedule(Seconds(start_time + index*10 + 1),
 		//                        &TraceNextRx,
 		   //                     prefix_file_name + flowString + "-next-rx.data",
@@ -954,12 +955,15 @@ main(int argc, char* argv[])
 		                measurementWindow);*/
 		          
 		                
-		} else {
+		/*} else {*/
+		
+		if (index >= num_flows) {
+		
 		    std::string flowString;
 		    flowString = "-reverse_flow" + std::to_string(index);
 		    
 
-		    firstCwnd[index + gateways.GetN()] = true;
+		   /* firstCwnd[index + gateways.GetN()] = true;
 		    firstSshThr[index + gateways.GetN()] = true;
 		    firstRtt[index + gateways.GetN()] = true;
 		    firstRto[index + gateways.GetN()] = true;
@@ -987,7 +991,7 @@ main(int argc, char* argv[])
 		    Simulator::Schedule(Seconds(start_time + index*interval + 0.0001),
 		                        &TraceInFlight,
 		                        prefix_file_name + flowString + "-inflight.data",
-		                        index + gateways.GetN());
+		                        index + gateways.GetN());  */
 	       //     Simulator::Schedule(Seconds(start_time + index*10 + 1),
 		//                        &TraceNextRx,
 		   //                     prefix_file_name + flowString + "-next-rx.data",
