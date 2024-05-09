@@ -67,5 +67,6 @@ To use the model
 ## References
 <a id="1">[1]</a> 
 Kapetanidou, Ioanna Angeliki, et al. "Experimenting with Ledbat++: Fairness, Flow Scalability and LBE Compliance." 
-Preprint: https://www.researchgate.net/publication/380096217_Experimenting_with_Ledbat_Fairness_Flow_Scalability_and_LBE_Compliance
+
+_Preprint_: https://www.researchgate.net/publication/380096217_Experimenting_with_Ledbat_Fairness_Flow_Scalability_and_LBE_Compliance
   
