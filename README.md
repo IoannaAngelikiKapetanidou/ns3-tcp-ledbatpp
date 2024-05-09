@@ -62,11 +62,10 @@ To use the model
    You may get logging info by enabling NS_LOG before running the example, e.g.:
    ```
    export 'NS_LOG=TcpLedbatpp=level_info|prefix_time|prefix_func'
+    ```
 
 ## References
 <a id="1">[1]</a> 
 Kapetanidou, Ioanna Angeliki, et al. "Experimenting with Ledbat++: Fairness, Flow Scalability and LBE Compliance." 
 Preprint: https://www.researchgate.net/publication/380096217_Experimenting_with_Ledbat_Fairness_Flow_Scalability_and_LBE_Compliance
-
-
-   ```
+  
